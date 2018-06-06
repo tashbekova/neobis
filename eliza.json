@@ -1,0 +1,23 @@
+{
+	"personal": [
+		"firstname",
+		"lastname",
+		"birthday",
+		"univeristy",
+		"department",
+		"phone number",
+		"github"
+	],
+	"data": [
+		[
+			"Eliza",
+			"Tashbekova",
+			"05.04.99",
+			"KSTU",
+			"Back-end",
+			"0700779904",
+			"https://github.com/tashbekova/neobis.git"
+		]
+	]
+}
+		
