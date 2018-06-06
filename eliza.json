@@ -1,23 +1,13 @@
 {
-	"personal": [
-		"firstname",
-		"lastname",
-		"birthday",
-		"univeristy",
-		"department",
-		"phone number",
-		"github"
-	],
-	"data": [
-		[
-			"Eliza",
-			"Tashbekova",
-			"05.04.99",
-			"KSTU",
-			"Back-end",
-			"0700779904",
-			"https://github.com/tashbekova/neobis.git"
-		]
-	]
+	"personal": 
+	{
+	  "firstname":"Eliza",
+	  "lastname":"Tashbekova",
+	  "birthday":"05.04.99",
+	  "univeristy":"KSTU",
+	  "student":true,
+	  "department":"Backend",
+	  "phone number":"0700779904",
+	  "github":"https://github.com/tashbekova/neobis.git"
+	}
 }
-		
