@@ -20,7 +20,7 @@ class Branch(models.Model):
     addreaa = models.CharField(max_length = 200)
 
     class Meta:
-        verbose_name = "branch
+        verbose_name = "branch"
         
 class Contact(models.Model):
     type=models.IntegerField(choices=Types)
