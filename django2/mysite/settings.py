@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'mainApp',
     'rest_framework',
     'snippets.apps.SnippetsConfig',
+    'tasks.apps.TasksConfig'
 ]
 
 MIDDLEWARE = [
