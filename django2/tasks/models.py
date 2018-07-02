@@ -13,7 +13,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = "category"
 
-    def str(self):
+    def __str__(self):
         return self.name
 
 class Branch(models.Model): 
@@ -31,7 +31,7 @@ class Contact(models.Model):
     class Meta:
         verbose_name="contact"
 
-    def str(self):
+    def __str__(self):
         return self.type
 
 class Course(models.Model): 
@@ -43,7 +43,7 @@ class Course(models.Model):
     branches = models.ManyToManyField('Branch')
 
     class Meta:
-        verbose_name="course"
+        default_related_name="course"
 
-    def str(self):
+    def __str__(self):
         return self.name
