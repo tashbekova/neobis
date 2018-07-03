@@ -18,10 +18,9 @@ class ContactSerializer(serializers.ModelSerializer):
         fields = ('type', 'value')
 
 class CourseSerializer(serializers.ModelSerializer):
-    contacts = ContactSerializer(many=True)
-    branches = BranchSerializer(many=True)
-    category = serializers.ReadOnlyField(source='category.name')
-
+    contacts = ContactSerializer(many=False)
+    branches = BranchSerializer(many=False)
+    category = CategorySerializer(many=False)
     class Meta:
         model = Course
         fields = ('name', 'logo', 'description', 'category', 'contacts', 'branches')
