@@ -1,7 +1,7 @@
 FORMAT: 1A
 HOST: http://127.0.0.1:8000/tasks/
 
-# django
+# django (Tasks)
 
 Tasks is a simple API that allows you to view, add, delete courses
 
