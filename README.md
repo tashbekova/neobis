@@ -79,6 +79,9 @@ You can now run the development server:
 
 ## Apps
 mainApp - an application made from a video lesson
+
 polls -voiting apllication(django tutorial)
+
 snippets - django-rest framework tutorial
+
 tasks -application for viewing and adding courses
