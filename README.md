@@ -9,6 +9,7 @@ $ source project myvenv/bin/activate
 $ pip install -r https://github.com/tashbekova/neobis/blob/master/django2/requirements.txt```
 
 ## You may want to change the name `projectname`.
+
 ```$ django-admin startproject --template https://github.com/tashbekova/neobis/tree/master/django2 projectname
 
 $ cd projectname/
