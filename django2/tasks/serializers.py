@@ -18,12 +18,19 @@ class ContactSerializer(serializers.ModelSerializer):
         fields = ('type', 'value')
 
 class CourseSerializer(serializers.ModelSerializer):
-    contacts = ContactSerializer(many=False)
-    branches = BranchSerializer(many=False)
+    contacts = ContactSerializer(many=True)
+    branches = BranchSerializer(many=True)
     category = CategorySerializer(many=False)
     class Meta:
         model = Course
         fields = ('name', 'logo', 'description', 'category', 'contacts', 'branches')
 
     def create(self, validated_data):
-        return Course.objects.create(**validated_data)
+        contact=validated_data.pop('contacts')
+        branch=validated_data.pop('branches')
+        category=validated_data.pop('category')
+        course=Course.objects.create(**validated_data)
+        Contact.objects.create(course=course,**contact)
+        Branch.objects.create(course=course,**branch)
+        Category.objects.create(course=course,**category)
+        return course
