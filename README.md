@@ -5,7 +5,9 @@ The clean, fast and right way to start a new Django 2.1 powered website.
 Setup project environment with virtualenv and pip
 
 `$ virtualenv project myvenv>`
+
 `$ source project myvenv/bin/activate`
+
 `$ pip install -r https://github.com/tashbekova/neobis/blob/master/django2/requirements.txt `
 
 ## You may want to change the name `projectname`
@@ -14,4 +16,4 @@ Setup project environment with virtualenv and pip
 
 $ cd projectname/
 $ python manage.py migrate
-$ python manage.py runserver```
+$ python manage.py runserver
