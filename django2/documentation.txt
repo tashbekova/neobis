@@ -1,0 +1,84 @@
+FORMAT: 1A
+HOST: http://127.0.0.1:8000/tasks/
+
+# django
+
+Tasks is a simple API that allows you to view, add, delete courses
+
+## Courses Collection 
+
+### List All Courses [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "name": "English Zone",
+                "logo": "https://www.facebook.com/english.zone.kg/",
+                "description": "Курсы английского языка",
+                "category": {
+                 "name": "Language courses"
+                },
+                "contacts": {
+                 "type": "PHONE",
+                 "value": "0700779904"
+                },
+                "branches": {
+                 "latitude": "42.847971",
+                 "longtitude": "74.586733",
+                 "addreaa": "Manas 58/ Aini - right next to the Manas university"
+                }
+            }
+        ]
+
+### Create a New Courses [POST]
+
+You may create your own courses using this action. 
+
++ Request (application/json)
+
+        {
+            "name": "",
+            "logo": "",
+            "description": "",
+            "category": {
+                "name": ""
+            },
+            "contacts": {
+                "type": null,
+                "value": ""
+            },
+            "branches": {
+                "latitude": "",
+                "longtitude": "",
+                "addreaa": ""
+            }
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+        [
+            {
+                "name": "English Zone",
+                "logo": "https://www.facebook.com/english.zone.kg/",
+                "description": "Курсы английского языка",
+                "category": {
+                 "name": "Language courses"
+                },
+                "contacts": {
+                 "type": "PHONE",
+                 "value": "0700779904"
+                },
+                "branches": {
+                 "latitude": "42.847971",
+                 "longtitude": "74.586733",
+                 "addreaa": "Manas 58/ Aini - right next to the Manas university"
+                }
+            }
+        ]

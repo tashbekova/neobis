@@ -1,5 +1,7 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
+from rest_framework.routers import DefaultRouter
 from tasks import views
+from rest_framework.schemas import get_schema_view
 
 urlpatterns = [
     url(r'^tasks/$', views.CourseList.as_view()),
