@@ -15,5 +15,7 @@ Setup project environment with virtualenv and pip
 ```$ django-admin startproject --template https://github.com/tashbekova/neobis/tree/master/django2 projectname
 
 $ cd projectname/
+
 $ python manage.py migrate
+
 $ python manage.py runserver
