@@ -1,4 +1,3 @@
-# neobis
 ## Django Project Template
 The clean, fast and right way to start a new Django 2.1 powered website.
 ## Getting Started
