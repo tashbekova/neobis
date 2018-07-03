@@ -1,5 +1,5 @@
 # neobis
-# Django Project Template
+## Django Project Template
 The clean, fast and right way to start a new Django 2.1 powered website.
 # Getting Started
 Setup project environment with virtualenv and pip
