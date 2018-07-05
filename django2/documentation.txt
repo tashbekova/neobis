@@ -5,7 +5,7 @@ HOST: http://127.0.0.1:8000/tasks/
 
 Tasks is a simple API that allows you to view, add, delete courses
 
-## Courses Collection 
+## Courses Collection [/tasks]
 
 ### List All Courses [GET]
 
@@ -59,7 +59,7 @@ You may create your own courses using this action.
 
     + Headers
 
-            Location: /questions/2
+            Location: /tasks/2
 
     + Body
 
