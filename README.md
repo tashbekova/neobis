@@ -6,7 +6,7 @@ Template is written with django 2.0.6 and python 3 in mind.
 
 Documentation for API
 
-https://django3.docs.apiary.io/#introduction/courses-collection/list-all-courses-[get]
+https://django3.docs.apiary.io/#reference/0/courses-collection/list-all-courses
 
 ### Main features
 
