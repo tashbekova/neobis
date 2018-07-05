@@ -4,6 +4,10 @@ The goal of this project is to provide minimalistic django project template that
 
 Template is written with django 2.0.6 and python 3 in mind.
 
+Documentation for API
+
+https://django3.docs.apiary.io/#introduction/courses-collection/list-all-courses-[get]
+
 ### Main features
 
 * Example app with custom user model
