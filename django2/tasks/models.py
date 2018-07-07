@@ -8,7 +8,6 @@ Types=(
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length = 200)
-    imgpath = models.CharField(max_length = 200)
 
     class Meta:
         verbose_name = "category"
@@ -19,7 +18,7 @@ class Category(models.Model):
 class Branch(models.Model): 
     latitude = models.CharField(max_length = 200)
     longtitude = models.CharField(max_length = 200)
-    addreaa = models.CharField(max_length = 200)
+    address = models.CharField(max_length = 200)
 
     class Meta:
         verbose_name = "branch"
@@ -32,10 +31,10 @@ class Contact(models.Model):
         verbose_name="contact"
 
     def __str__(self):
-        return self.type
+        return self.value
 
 class Course(models.Model): 
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    category = models.ManyToManyField('Category')
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=250)
     contacts = models.ManyToManyField('Contact')
