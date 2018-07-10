@@ -2,6 +2,7 @@ from rest_framework import serializers
 from tasks.models import Category,Branch,Contact,Course
 
 class CategorySerializer(serializers.ModelSerializer):
+    serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Category
         fields = ['name']
@@ -20,17 +21,20 @@ class ContactSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     contacts = ContactSerializer(many=True)
     branches = BranchSerializer(many=True)
-    category = CategorySerializer(many=False)
+
     class Meta:
         model = Course
         fields = ('name', 'logo', 'description', 'category', 'contacts', 'branches')
 
     def create(self, validated_data):
-        contact=validated_data.pop('contacts')
-        branch=validated_data.pop('branches')
-        category=validated_data.pop('category')
+        contacts=validated_data.pop('contacts')
+        branches=validated_data.pop('branches')
+
         course=Course.objects.create(**validated_data)
-        Contact.objects.create(course=course,**contact)
-        Branch.objects.create(course=course,**branch)
-        Category.objects.create(course=course,**category)
+
+        for contact in contacts:
+            Contact.objects.create(course=course, **contact)
+        for branch in branches:
+            Branch.objects.create(course=course,**branch)
+            
         return course
