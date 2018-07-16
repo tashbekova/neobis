@@ -105,3 +105,26 @@ class Table(models.Model):
 
     def __str__(self):
         return self.name
+
+class ServicePercentage(models.Model):
+    percentage = models.FloatField()
+    name = 'Percentage'
+
+    class Meta:
+        verbose_name = 'Percentage'
+        verbose_name_plural = 'Percentages'
+
+    def __str__(self):
+        return self.name
+
+class Check(models.Model):
+    order=models.ForeignKey('Order', on_delete=models.SET_NULL, null=True)
+    service_fee = models.ForeignKey(ServicePercentage, on_delete=models.SET_NULL, null=True)
+    meals = models.ForeignKey(Meal, on_delete=models.SET_NULL, null=True)
+
+    date=models.DateTimeField(auto_now_add=True)
+    total_sum = models.FloatField(null=True)
+
+    class Meta:
+        verbose_name = 'Check'
+        verbose_name_plural = 'Checks'

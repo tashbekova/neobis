@@ -1,20 +1,33 @@
 from rest_framework import serializers
-from tasks.models import Category,Branch,Contact,Course
+from CRM.models import Table,User,Category,Role,Meal,MealsToOrder,Order,Department,Status
 
 class CategorySerializer(serializers.ModelSerializer):
     serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Category
+        fields = ('name','department')
+
+class TableSerializer(serializers.ModelSerializer):
+    serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    class Meta:
+        model = Table
         fields = ['name']
 
-class BranchSerializer(serializers.ModelSerializer): 
+class StatusSerializer(serializers.ModelSerializer): 
+    serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
-        model = Branch
-        fields = ('latitude', 'longtitude', 'address')
+        model = Status
+        fields = ['name']
 
-class ContactSerializer(serializers.ModelSerializer):
+class RoleSerializer(serializers.ModelSerializer): 
+    serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
-        model = Contact
+        model = Role
+        fields = ['name']
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
         fields = ('type', 'value')
 
 class CourseSerializer(serializers.ModelSerializer):
