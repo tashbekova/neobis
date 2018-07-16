@@ -19,34 +19,56 @@ class StatusSerializer(serializers.ModelSerializer):
         model = Status
         fields = ['name']
 
+class ServicePercentageSerializers(serializers.ModelSerializer):
+    serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    class Meta:
+        model = ServicePercentage
+        fields = ['percentage']
+
 class RoleSerializer(serializers.ModelSerializer): 
     serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Role
         fields = ['name']
 
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ('__all__')
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('type', 'value')
+        fields = ('name','surname','login','password','email','dateofadd',
+                  'phone' )
 
-class CourseSerializer(serializers.ModelSerializer):
-    contacts = ContactSerializer(many=True)
-    branches = BranchSerializer(many=True)
+class MealsSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Meal
+        fields = ('name', 'price', 'description','category')
+
+class OrderSerializer(serializers.ModelSerializer):
+    roles = RoleSerializer(many=True)
+    tables = TableSerializer(many=True)
+    meals = MealSerializer(many=True)
 
     class Meta:
-        model = Course
-        fields = ('name', 'logo', 'description', 'category', 'contacts', 'branches')
+        model = Order
+        fields = ('roles','tables','is_it_open','date','meals')
 
     def create(self, validated_data):
-        contacts=validated_data.pop('contacts')
-        branches=validated_data.pop('branches')
+        roles = validated_data.pop('roles')
+        tables = validated_data.pop('tables')
+        meals = validated_data.pop('meals')
+        
+        order=Order.objects.create(**validated_data)
 
-        course=Course.objects.create(**validated_data)
-
-        for contact in contacts:
-            Contact.objects.create(course=course, **contact)
-        for branch in branches:
-            Branch.objects.create(course=course,**branch)
+        for role in roles:
+            Role.objects.create(order=order, **role)
+        for table in tables:
+            Table.objects.create(order=order,**table)
+         for meal in meals:
+            Meal.objects.create(order=order,**meal)
             
-        return course
+        return order
