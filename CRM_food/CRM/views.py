@@ -1,10 +1,5 @@
-from CRM.models import Table,User,Category,Role,Meal,
-                       MealsToOrder,Order,Department,
-                       Status,SerivcePercentage,Check
-from CRM.serializers import TableSerializer,UserSerializer,CategorySerializer,
-                            RoleSerializer,MealSerializer,MealsToOrderSerializer,
-                            OrderSerializer,DepartmentSerializer,StatusSerializer,
-                            ServicePercentageSerializer,CheckSerializer
+from CRM.models import *
+from CRM.serializers import *
 from rest_framework import generics
 
 class TableList(generics.ListCreateAPIView):

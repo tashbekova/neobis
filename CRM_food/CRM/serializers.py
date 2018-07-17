@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from CRM.models import Table,User,Category,Role,Meal,MealsToOrder,Order,Department,Status,ServicePercentage,Check
-
+from CRM.models import *
 class CategorySerializer(serializers.ModelSerializer):
     serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
@@ -19,7 +18,7 @@ class StatusSerializer(serializers.ModelSerializer):
         model = Status
         fields = ['name']
 
-class ServicePercentageSerializers(serializers.ModelSerializer):
+class ServicePercentageSerializer(serializers.ModelSerializer):
     serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = ServicePercentage
@@ -43,10 +42,15 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('name','surname','login','password','email','dateofadd',
                   'phone' )
 
-class MealsSerializers(serializers.ModelSerializer):
+class MealSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meal
         fields = ('name', 'price', 'description','category')
+
+class MealsToOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MealsToOrder
+        fields = ('__all__')
 
 class OrderSerializer(serializers.ModelSerializer):
     roles = RoleSerializer(many=True)
@@ -68,7 +72,33 @@ class OrderSerializer(serializers.ModelSerializer):
             Role.objects.create(order=order, **role)
         for table in tables:
             Table.objects.create(order=order,**table)
-         for meal in meals:
+        for meal in meals:
             Meal.objects.create(order=order,**meal)
             
         return order
+
+class CheckSerializer(serializers.ModelSerializer):
+    orders =OrderSerializer(many=True)
+    percentages = ServicePercentageSerializer(many=True)
+    meals = MealSerializer(many=True)
+
+    class Meta:
+        model = Order
+        fields = ('orders','date','percentages','totalsum','meals')
+    
+    def create(self, validated_data):
+        orders = validated_data.pop('orders')
+        percentages = validated_data.pop('percentages')
+        meals = validated_data.pop('meals')
+        
+        check=Check.objects.create(**validated_data)
+
+        for order in orders:
+            Order.objects.create(check=check, **role)
+        for percentage in percentages:
+            ServicePercentage.objects.create(check=check,**table)
+        for meal in meals:
+            Meal.objects.create(check=check,**meal)
+            
+        return check
+    
