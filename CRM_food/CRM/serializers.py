@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from CRM.models import Table,User,Category,Role,Meal,MealsToOrder,Order,Department,Status
+from CRM.models import Table,User,Category,Role,Meal,MealsToOrder,Order,Department,Status,ServicePercentage,Check
 
 class CategorySerializer(serializers.ModelSerializer):
     serializers.PrimaryKeyRelatedField(many=True, read_only=True)
