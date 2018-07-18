@@ -74,13 +74,14 @@ class User(models.Model):
         verbose_name_plural = "Users"
 
     def __str__(self):
-        return self.name
+        return self.role
 
 class Order(models.Model): 
-    role = models.ForeignKey('Role', on_delete=models.SET_NULL, null=True)
+    
+    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     table = models.ForeignKey('Table', on_delete=models.SET_NULL, null=True)
     is_it_open = models.ForeignKey('Status', on_delete=models.SET_NULL, null=True)
-    meals = models.ForeignKey('MealsToOrder', on_delete=models.SET_NULL, null=True)
+    meals = models.ManyToManyField(Meal,through='MealsToOrder')
 
     date=models.DateTimeField(auto_now_add=True)    
     class Meta:

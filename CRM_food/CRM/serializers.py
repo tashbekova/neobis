@@ -31,18 +31,21 @@ class RoleSerializer(serializers.ModelSerializer):
         fields = ['name']
 
 class DepartmentSerializer(serializers.ModelSerializer):
+    serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Department
         fields = ('__all__')
 
 
 class UserSerializer(serializers.ModelSerializer):
+    serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = User
         fields = ('name','surname','login','password','email','dateofadd',
                   'phone' )
 
 class MealSerializer(serializers.ModelSerializer):
+    serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Meal
         fields = ('name', 'price', 'description','category')
@@ -53,23 +56,23 @@ class MealsToOrderSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class OrderSerializer(serializers.ModelSerializer):
-    roles = RoleSerializer(many=True)
+    users = UserSerializer(many=True)
     tables = TableSerializer(many=True)
     meals = MealsToOrderSerializer(many=True)
 
     class Meta:
         model = Order
-        fields = ('roles','tables','is_it_open','date','meals')
+        fields = ('users','tables','is_it_open','date','meals')
 
     def create(self, validated_data):
-        roles = validated_data.pop('roles')
+        users = validated_data.pop('users')
         tables = validated_data.pop('tables')
         meals = validated_data.pop('meals')
         
         order=Order.objects.create(**validated_data)
 
-        for role in roles:
-            Role.objects.create(order=order, **role)
+        for user in users:
+            User.objects.create(order=order, **user)
         for table in tables:
             Table.objects.create(order=order,**table)
         for meal in meals:
