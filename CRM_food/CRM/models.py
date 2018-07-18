@@ -38,8 +38,8 @@ class Meal(models.Model):
         return self.name
 
 class MealsToOrder(models.Model): 
-    meal= models.ForeignKey('Meal', on_delete=models.SET_NULL, null=True)
-    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True)
+    meals= models.ForeignKey('Meal', on_delete=models.SET_NULL, null=True)
+    orders = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True)
 
     count = models.IntegerField(default=0)
     
@@ -74,16 +74,16 @@ class User(models.Model):
         verbose_name_plural = "Users"
 
     def __str__(self):
-        return self.role
+        return self.name
 
 class Order(models.Model): 
-    
-    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-    table = models.ForeignKey('Table', on_delete=models.SET_NULL, null=True)
+
+    users = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    tables= models.ForeignKey('Table', on_delete=models.SET_NULL, null=True)
     is_it_open = models.ForeignKey('Status', on_delete=models.SET_NULL, null=True)
     meals = models.ManyToManyField(Meal,through='MealsToOrder')
 
-    date=models.DateTimeField(auto_now_add=True)    
+    date=models.DateTimeField(auto_now_add=True)  
     class Meta:
         default_related_name="Order"
         verbose_name_plural = "Orders"
@@ -109,7 +109,7 @@ class Table(models.Model):
         return self.name
 
 class ServicePercentage(models.Model):
-    percentage = models.FloatField()
+    percentages = models.FloatField()
     name='Percentage'
     class Meta:
         verbose_name = 'Percentage'
@@ -119,16 +119,11 @@ class ServicePercentage(models.Model):
         return self.name
 
 class Check(models.Model):
-    order=models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-    percentage = models.ForeignKey(ServicePercentage, on_delete=models.SET_NULL, null=True)
+    orders=models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    percentages = models.ForeignKey(ServicePercentage, on_delete=models.SET_NULL, null=True)
     meals = models.ForeignKey(Meal, on_delete=models.SET_NULL, null=True)
 
     date=models.DateTimeField(auto_now_add=True)
-    totalsum = models.FloatField(null=True)
-
     class Meta:
         verbose_name = 'Check'
         verbose_name_plural = 'Checks'
-
-    def __str__(self):
-        return self.totalsum

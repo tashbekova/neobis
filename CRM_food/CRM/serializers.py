@@ -58,7 +58,7 @@ class MealsToOrderSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     users = UserSerializer(many=True)
     tables = TableSerializer(many=True)
-    meals = MealsToOrderSerializer(many=True)
+    meals = MealSerializer(many=True)
 
     class Meta:
         model = Order
@@ -76,7 +76,7 @@ class OrderSerializer(serializers.ModelSerializer):
         for table in tables:
             Table.objects.create(order=order,**table)
         for meal in meals:
-            MealsToOrder.objects.create(order=order,**meal)
+            Meal.objects.create(order=order,**meal)
             
         return order
 
@@ -87,7 +87,7 @@ class CheckSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('orders','date','percentages','totalsum','meals')
+        fields = ('orders','date','percentages','meals')
     
     def create(self, validated_data):
         orders = validated_data.pop('orders')

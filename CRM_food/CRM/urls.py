@@ -19,5 +19,7 @@ urlpatterns = [
     url(r'^role/(?P<pk>[0-9]+)/$', views.RoleDetail.as_view()),
     url(r'^table/$', views.TableList.as_view()),
     url(r'^table/(?P<pk>[0-9]+)/$', views.TableDetail.as_view()),
+    url(r'^category/$', views.CategoryList.as_view()),
+    url(r'^category/(?P<pk>[0-9]+)/$', views.CategoryDetail.as_view()),
 ]
 
