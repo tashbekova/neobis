@@ -83,16 +83,14 @@ class OrderSerializer(serializers.ModelSerializer):
 class CheckSerializer(serializers.ModelSerializer):
     orders =OrderSerializer(many=True)
     percentages = ServicePercentageSerializer(many=True)
-    meals = MealsToOrderSerializer(many=True)
 
     class Meta:
         model = Order
-        fields = ('orders','date','percentages','meals')
+        fields = ('orders','date','percentages')
     
     def create(self, validated_data):
         orders = validated_data.pop('orders')
         percentages = validated_data.pop('percentages')
-        meals = validated_data.pop('meals')
         
         check=Check.objects.create(**validated_data)
 
@@ -100,8 +98,6 @@ class CheckSerializer(serializers.ModelSerializer):
             Order.objects.create(check=check, **role)
         for percentage in percentages:
             ServicePercentage.objects.create(check=check,**table)
-        for meal in meals:
-            MealsToOrder.objects.create(check=check,**meal)
             
         return check
     

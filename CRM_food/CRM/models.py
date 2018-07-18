@@ -121,7 +121,6 @@ class ServicePercentage(models.Model):
 class Check(models.Model):
     orders=models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     percentages = models.ForeignKey(ServicePercentage, on_delete=models.SET_NULL, null=True)
-    meals = models.ForeignKey(Meal, on_delete=models.SET_NULL, null=True)
 
     date=models.DateTimeField(auto_now_add=True)
     class Meta:
