@@ -77,12 +77,12 @@ class User(models.Model):
         return self.name
 
 class Order(models.Model): 
-    waiter = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    role = models.ForeignKey('Role', on_delete=models.SET_NULL, null=True)
     table = models.ForeignKey('Table', on_delete=models.SET_NULL, null=True)
     is_it_open = models.ForeignKey('Status', on_delete=models.SET_NULL, null=True)
-    
-    date=models.DateTimeField(auto_now_add=True)
-    meals = models.ForeignKey(Meal, on_delete=models.SET_NULL, null=True)
+    meals = models.ForeignKey('MealsToOrder', on_delete=models.SET_NULL, null=True)
+
+    date=models.DateTimeField(auto_now_add=True)    
     class Meta:
         default_related_name="Order"
         verbose_name_plural = "Orders"
@@ -128,3 +128,6 @@ class Check(models.Model):
     class Meta:
         verbose_name = 'Check'
         verbose_name_plural = 'Checks'
+
+    def __str__(self):
+        return self.totalsum

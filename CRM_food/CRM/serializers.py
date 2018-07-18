@@ -55,7 +55,7 @@ class MealsToOrderSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     roles = RoleSerializer(many=True)
     tables = TableSerializer(many=True)
-    meals = MealSerializer(many=True)
+    meals = MealsToOrderSerializer(many=True)
 
     class Meta:
         model = Order
@@ -73,14 +73,14 @@ class OrderSerializer(serializers.ModelSerializer):
         for table in tables:
             Table.objects.create(order=order,**table)
         for meal in meals:
-            Meal.objects.create(order=order,**meal)
+            MealsToOrder.objects.create(order=order,**meal)
             
         return order
 
 class CheckSerializer(serializers.ModelSerializer):
     orders =OrderSerializer(many=True)
     percentages = ServicePercentageSerializer(many=True)
-    meals = MealSerializer(many=True)
+    meals = MealsToOrderSerializer(many=True)
 
     class Meta:
         model = Order
@@ -98,7 +98,7 @@ class CheckSerializer(serializers.ModelSerializer):
         for percentage in percentages:
             ServicePercentage.objects.create(check=check,**table)
         for meal in meals:
-            Meal.objects.create(check=check,**meal)
+            MealsToOrder.objects.create(check=check,**meal)
             
         return check
     
