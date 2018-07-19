@@ -1,6 +1,40 @@
+from __future__ import unicode_literals
+from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import (
+    AbstractBaseUser, PermissionsMixin,BaseUserManager
+)
+
 from django.db import models
 
-# Create your models here.
+class UserManager(BaseUserManager):
+ 
+    def _create_user(self, login, password, **extra_fields):
+        """
+        Creates and saves a User with the given email,and password.
+        """
+        if not email:
+            raise ValueError('The given email must be set')
+        try:
+            with transaction.atomic():
+                user = self.model(login=login, **extra_fields)
+                user.set_password(password)
+                user.save(using=self._db)
+                return user
+        except:
+            raise
+ 
+    def create_user(self, login, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(login, password, **extra_fields)
+ 
+    def create_superuser(self, login, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+ 
+        return self._create_user(login, password=password, **extra_fields)
+
 class Category(models.Model): 
     department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True)
 
@@ -69,12 +103,21 @@ class User(models.Model):
     dateofadd = models.DateTimeField(auto_now_add=True)
     phone=models.CharField(max_length=50)
     
+    objects = UserManager()
+
+    USERNAME_FIELD = 'login'
+    REQUIRED_FIELDS = ['name', 'surname']
+
     class Meta:
         default_related_name="User"
         verbose_name_plural = "Users"
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        super(User, self).save(*args, **kwargs)
+        return self
 
 class Order(models.Model): 
 

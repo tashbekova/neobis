@@ -38,11 +38,14 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    class Meta:
+    
+    date_joined = serializers.ReadOnlyField()
+ 
+    class Meta(object):
         model = User
         fields = ('name','surname','login','password','email','dateofadd',
                   'phone' )
+        extra_kwargs = {'password': {'write_only': True}}
 
 class MealSerializer(serializers.ModelSerializer):
     serializers.PrimaryKeyRelatedField(many=True, read_only=True)

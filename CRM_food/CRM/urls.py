@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.conf.urls import url, include
 from CRM import views
+from .views import CreateUserAPIView, UserRetrieveUpdateAPIView
+from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
     url(r'^user/$', views.UserList.as_view()),
@@ -21,5 +23,8 @@ urlpatterns = [
     url(r'^table/(?P<pk>[0-9]+)/$', views.TableDetail.as_view()),
     url(r'^category/$', views.CategoryList.as_view()),
     url(r'^category/(?P<pk>[0-9]+)/$', views.CategoryDetail.as_view()),
+    url(r'^create/$', CreateUserAPIView.as_view()),
+    url(r'^obtain_token/',obtain_jwt_token),
+    url(r'^update/$', UserRetrieveUpdateAPIView.as_view()),
 ]
 
