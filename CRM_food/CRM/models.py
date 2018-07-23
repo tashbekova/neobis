@@ -1,39 +1,11 @@
 from __future__ import unicode_literals
-from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin,BaseUserManager
 )
-
 from django.db import models
-
-class UserManager(BaseUserManager):
- 
-    def _create_user(self, login, password, **extra_fields):
-        """
-        Creates and saves a User with the given email,and password.
-        """
-        if not email:
-            raise ValueError('The given email must be set')
-        try:
-            with transaction.atomic():
-                user = self.model(login=login, **extra_fields)
-                user.set_password(password)
-                user.save(using=self._db)
-                return user
-        except:
-            raise
- 
-    def create_user(self, login, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-        return self._create_user(login, password, **extra_fields)
- 
-    def create_superuser(self, login, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
- 
-        return self._create_user(login, password=password, **extra_fields)
+from django.utils import timezone
+from django.urls import reverse
+from django.conf import settings
 
 class Category(models.Model): 
     department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True)
@@ -92,20 +64,47 @@ class Role(models.Model):
     def __str__(self):
         return self.name
 
-class User(models.Model): 
+class UserManager(BaseUserManager):
+ 
+    def _create_user(self, email, password, **extra_fields):
+        """
+        Creates and saves a User with the given email,and password.
+        """
+        if not email:
+            raise ValueError('The given login must be set')
+        try:
+            with transaction.atomic():
+                user = self.model(email=email, **extra_fields)
+                user.set_password(password)
+                user.save(using=self._db)
+                return user
+        except:
+            raise
+ 
+    def create_user(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(email, password, **extra_fields)
+ 
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+ 
+        return self._create_user(email, password=password, **extra_fields)
+
+class User(AbstractBaseUser, PermissionsMixin): 
     role = models.ForeignKey('Role', on_delete=models.SET_NULL, null=True)
 
     name = models.CharField(max_length=200)
     surname = models.CharField(max_length=200)
-    login = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
-    email = models.CharField(max_length=50)
-    dateofadd = models.DateTimeField(auto_now_add=True)
+    email = models.EmailField(max_length=40, unique=True)
     phone=models.CharField(max_length=50)
+    date_joined = models.DateTimeField(default=timezone.now)
     
     objects = UserManager()
 
-    USERNAME_FIELD = 'login'
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'surname']
 
     class Meta:

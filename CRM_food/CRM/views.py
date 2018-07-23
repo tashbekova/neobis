@@ -1,11 +1,11 @@
+from rest_framework import generics, status
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from CRM_food import settings
+
 from CRM.models import *
 from CRM.serializers import *
-from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
-from CRM_food import settings
-from CRM.models import(User,MealsToOrder)
-from .serializers import UserSerializer, MealsToOrderSerializer
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
@@ -106,7 +106,7 @@ class CreateUserAPIView(APIView):
  
     def post(self, request):
         user = request.data
-        serializer = UserSerializer(data=user)
+        serializer = UserSerializer(data=users)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -116,10 +116,11 @@ class CreateUserAPIView(APIView):
 def authenticate_user(request):
  
     try:
-        login = request.data['login']
+        email = request.data['email']
         password = request.data['password']
+        
  
-        user = User.objects.get(login=login, password=password)
+        user = User.objects.get(email=email, password=password)
         if user:
             try:
                 payload = jwt_payload_handler(user)
@@ -139,7 +140,7 @@ def authenticate_user(request):
                 'error': 'can not authenticate with the given credentials or the account has been deactivated'}
             return Response(res, status=status.HTTP_403_FORBIDDEN)
     except KeyError:
-        res = {'error': 'please provide a email and a password'}
+        res = {'error': 'please provide a login and a password'}
         return Response(res)
 
 class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
